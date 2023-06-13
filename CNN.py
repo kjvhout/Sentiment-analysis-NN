@@ -40,7 +40,9 @@ sequences = tokenizer.texts_to_sequences(texts)
 
 # Pad sequences to a fixed length
 max_length = max(len(seq) for seq in sequences)
-data = pad_sequences(sequences, maxlen=50)
+data = pad_sequences(sequences, maxlen=max_length)
+print("here:")
+print(max_length)
 
 
 # Convert labels to numpy array
@@ -51,7 +53,7 @@ X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2)
 
 # Build the CNN model
 model = Sequential()
-model.add(Embedding(input_dim=1000, output_dim=32, input_length=50))
+model.add(Embedding(input_dim=1000, output_dim=32, input_length=max_length))
 model.add(Conv1D(filters=128, kernel_size=5, activation='relu'))
 model.add(GlobalMaxPooling1D())
 model.add(Dense(units=1, activation='sigmoid'))
